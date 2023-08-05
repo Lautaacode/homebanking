@@ -1,7 +1,5 @@
 package com.homebanking.homebanking.controller;
 
-import com.homebanking.homebanking.dtos.ClientDTO;
-
 import com.homebanking.homebanking.models.Client;
 import com.homebanking.homebanking.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +19,8 @@ public class ClientController {
     private ClientRepository clientRepository;
 
     @RequestMapping("/clients")
-    public List<ClientDTO> getClients() {
-        return clientRepository.findAll().stream().map(client -> new ClientDTO(client)).collect(toList());
+    public List<Client> getClients() {
+        return clientRepository.findAll();
     }
 
     @RequestMapping("/clients/{id}")
