@@ -8,10 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 @SpringBootApplication
 public class HomebankingApplication {
@@ -25,20 +22,14 @@ public class HomebankingApplication {
 		return (args -> {
 			Client client_1 = new Client("Melba","Morel","melba@mindhub.com");
 			clientRepository.save(client_1);
-			Account account_1 = new Account("VIN001", LocalDate.now(),5000 );
-			Account account_2 = new Account("VIN002", LocalDate.now(),7500 );
-			LocalDate today =  LocalDate.now();
-			LocalDate tomorrow = today.plusDays(1);
-			account_2.setCreationDate(tomorrow);
 
-			Client client_2 = new Client("Lautaro","Blanco","Lautaronicoblanco@hotmail.com");
-			clientRepository.save(client_2);
-
-			client_1.addAccount(account_1);
-			client_1.addAccount(account_2);
+			Account account_1 = new Account(client_1,"VIN001", LocalDate.now(),5000 );
+			Account account_2 = new Account(client_1,"VIN002", LocalDate.now().plusDays(1),7500 );
 			accountRepository.save(account_1);
 			accountRepository.save(account_2);
 
+			Client client_2 = new Client("Lautaro","Blanco","Lautaronicoblanco@hotmail.com");
+			clientRepository.save(client_2);
 		});
 	}
 }
