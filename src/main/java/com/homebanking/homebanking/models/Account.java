@@ -4,7 +4,9 @@ package com.homebanking.homebanking.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Account {
@@ -14,16 +16,17 @@ public class Account {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
     private String number;
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
     private double balance;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
     private Client client;
 
+
     public Account() {
     }
 
-    public Account(Client client,String number, LocalDate creationDate, double balance) {
+    public Account(Client client, String number, LocalDateTime creationDate, double balance) {
         this.client = client;
         this.number = number;
         this.creationDate = creationDate;
@@ -42,11 +45,11 @@ public class Account {
         this.number = number;
     }
 
-    public LocalDate getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -66,4 +69,5 @@ public class Account {
     public void setClient(Client client) {
         this.client = client;
     }
+
 }
