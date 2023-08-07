@@ -2,8 +2,11 @@ package com.homebanking.homebanking;
 
 import com.homebanking.homebanking.models.Account;
 import com.homebanking.homebanking.models.Client;
+import com.homebanking.homebanking.models.Transaction;
+import com.homebanking.homebanking.models.TransactionType;
 import com.homebanking.homebanking.repositories.ClientRepository;
 import com.homebanking.homebanking.repositories.AccountRepository;
+import com.homebanking.homebanking.repositories.TransactionRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +22,7 @@ public class HomebankingApplication {
 	}
 
 	@Bean
-	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository){
+	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository){
 		return (args -> {
 			Client client_1 = new Client("Melba","Morel","melba@mindhub.com");
 			clientRepository.save(client_1);
@@ -32,6 +35,11 @@ public class HomebankingApplication {
 			Client client_2 = new Client("Lautaro","Blanco","Lautaronicoblanco@hotmail.com");
 			clientRepository.save(client_2);
 
+			Transaction transaction_1 = new Transaction(TransactionType.DEBIT,5000,"LALA",LocalDateTime.now(),account_1);
+			transactionRepository.save(transaction_1);
+
+			Transaction transaction_2 = new Transaction(TransactionType.CREDIT,5000,"LALA",LocalDateTime.now(),account_2);
+			transactionRepository.save(transaction_2);
 
 		});
 	}
