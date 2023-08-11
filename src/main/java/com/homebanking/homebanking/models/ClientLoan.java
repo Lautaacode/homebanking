@@ -28,12 +28,10 @@ public class ClientLoan {
     public ClientLoan() {
     }
 
-    public ClientLoan(String name, double amount, Integer payment, Client client, Loan loan) {
+    public ClientLoan(String name, double amount, Integer payment) {
         this.name = name;
         this.amount = amount;
         this.payment = payment;
-        this.client = client;
-        this.loan = loan;
     }
 
     public Long getId() {
