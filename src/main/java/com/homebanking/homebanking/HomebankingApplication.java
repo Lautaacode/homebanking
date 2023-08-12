@@ -1,5 +1,7 @@
 package com.homebanking.homebanking;
 
+import com.homebanking.homebanking.enums.CardColor;
+import com.homebanking.homebanking.enums.CardType;
 import com.homebanking.homebanking.models.*;
 import com.homebanking.homebanking.enums.TransactionType;
 import com.homebanking.homebanking.repositories.*;
@@ -8,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,7 +26,8 @@ public class HomebankingApplication {
                                       AccountRepository accountRepository,
                                       TransactionRepository transactionRepository,
                                       LoanRepository loanRepository,
-                                      ClientLoanRepository clientLoanRepository) {
+                                      ClientLoanRepository clientLoanRepository,
+                                      CardRepository cardRepository) {
         return (args -> {
             Client client_1 = new Client("Melba", "Morel", "melba@mindhub.com");
             Client client_2 = new Client("Lautaro", "Blanco", "Lautaronicoblanco@hotmail.com");
@@ -56,10 +60,10 @@ public class HomebankingApplication {
             loanRepository.save(loan_1);
             loanRepository.save(loan_2);
             loanRepository.save(loan_3);
-            ClientLoan clientLoan_1 = new ClientLoan(loan_1.getName(),400000,loan_1.getPayments().get(4));
-            ClientLoan clientLoan_2 = new ClientLoan(loan_2.getName(),50000,loan_2.getPayments().get(1));
-            ClientLoan clientLoan_3 = new ClientLoan(loan_2.getName(),100000,loan_2.getPayments().get(2));
-            ClientLoan clientLoan_4 = new ClientLoan(loan_2.getName(),200000,loan_3.getPayments().get(2));
+            ClientLoan clientLoan_1 = new ClientLoan(400000,loan_1.getPayments().get(4));
+            ClientLoan clientLoan_2 = new ClientLoan(50000,loan_2.getPayments().get(1));
+            ClientLoan clientLoan_3 = new ClientLoan(100000,loan_2.getPayments().get(2));
+            ClientLoan clientLoan_4 = new ClientLoan(200000,loan_3.getPayments().get(2));
 
 
             loan_1.addClientLoan(clientLoan_1);
@@ -83,6 +87,20 @@ public class HomebankingApplication {
             clientLoanRepository.save(clientLoan_2);
             clientLoanRepository.save(clientLoan_3);
             clientLoanRepository.save(clientLoan_4);
+
+            Card card_1 = new Card(client_1.getFirstName()+" "+client_1.getLastName(),CardType.DEBIT, CardColor.GOLD,"2316-5416-3854-2184",970,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
+            Card card_2 = new Card(client_1.getFirstName()+" "+client_1.getLastName(),CardType.CREDIT, CardColor.TITANIUM,"5423-8465-3214-5483",320,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
+            Card card_3 = new Card(client_2.getFirstName()+" "+client_2.getLastName(),CardType.DEBIT, CardColor.SILVER,"5456-1321-4541-8973",110,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
+
+            client_1.addCard(card_1);
+            client_1.addCard(card_2);
+            client_2.addCard(card_3);
+            clientRepository.save(client_1);
+            clientRepository.save(client_2);
+
+            cardRepository.save(card_1);
+            cardRepository.save(card_2);
+            cardRepository.save(card_3);
         });
     }
 }
