@@ -22,7 +22,7 @@ public class Loan {
     private double maxAmount;
     @ElementCollection
     private List<Integer> payments;
-    @OneToMany(mappedBy="loan", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "loan", fetch = FetchType.EAGER)
     Set<ClientLoan> clientLoans = new HashSet<>();
 
     public Loan() {
@@ -71,8 +71,10 @@ public class Loan {
         clientLoan.setLoan(this);
         clientLoans.add(clientLoan);
     }
+
+    //Methods extra;
     @JsonIgnore
-    public List<Client> getClients(){
+    public List<Client> getClients() {
         return clientLoans.stream().map(ClientLoan::getClient).collect(toList());
     }
 }

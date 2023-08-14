@@ -9,7 +9,6 @@ import static java.util.stream.Collectors.toSet;
 
 public class ClientDTO {
 
-
     private Long id ;
     private String firstName;
     private String lastName;
