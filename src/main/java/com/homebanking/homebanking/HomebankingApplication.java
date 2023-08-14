@@ -1,13 +1,18 @@
 package com.homebanking.homebanking;
 
+import com.homebanking.homebanking.models.Account;
 import com.homebanking.homebanking.models.Client;
+import com.homebanking.homebanking.models.Transaction;
+import com.homebanking.homebanking.models.TransactionType;
 import com.homebanking.homebanking.repositories.ClientRepository;
+import com.homebanking.homebanking.repositories.AccountRepository;
+import com.homebanking.homebanking.repositories.TransactionRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.Scanner;
+import java.time.LocalDateTime;
 
 @SpringBootApplication
 public class HomebankingApplication {
@@ -17,10 +22,25 @@ public class HomebankingApplication {
 	}
 
 	@Bean
-	public CommandLineRunner initData(ClientRepository clientRepository){
+	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository){
 		return (args -> {
-			Client client = new Client("Melba","Morel","melba@mindhub.com");
-			clientRepository.save(client);
+			Client client_1 = new Client("Melba","Morel","melba@mindhub.com");
+			clientRepository.save(client_1);
+
+			Account account_1 = new Account(client_1,"VIN001", LocalDateTime.now(),5000 );
+			Account account_2 = new Account(client_1,"VIN002", LocalDateTime.now().plusDays(1),7500 );
+			accountRepository.save(account_1);
+			accountRepository.save(account_2);
+
+			Client client_2 = new Client("Lautaro","Blanco","Lautaronicoblanco@hotmail.com");
+			clientRepository.save(client_2);
+
+			Transaction transaction_1 = new Transaction(TransactionType.DEBIT,5000,"LALA",LocalDateTime.now(),account_1);
+			transactionRepository.save(transaction_1);
+
+			Transaction transaction_2 = new Transaction(TransactionType.CREDIT,5000,"LALA",LocalDateTime.now(),account_2);
+			transactionRepository.save(transaction_2);
+
 		});
 	}
 }
