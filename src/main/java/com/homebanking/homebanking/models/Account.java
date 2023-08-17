@@ -28,8 +28,7 @@ public class Account {
     public Account() {
     }
 
-    public Account(Client client, String number, LocalDateTime creationDate, double balance) {
-        this.client = client;
+    public Account(String number, LocalDateTime creationDate, double balance) {
         this.number = number;
         this.creationDate = creationDate;
         this.balance = balance;
@@ -76,7 +75,8 @@ public class Account {
         return transactions;
     }
 
-    public void setTransactions(Set<Transaction> transactions) {
-        this.transactions = transactions;
+    public void addTransactions(Transaction transaction) {
+        transaction.setAccount(this);
+        transactions.add(transaction);
     }
 }

@@ -1,4 +1,4 @@
-package com.homebanking.homebanking.models;
+package com.homebanking.homebanking.enums;
 
 
 

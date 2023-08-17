@@ -1,5 +1,6 @@
 package com.homebanking.homebanking.models;
 
+import com.homebanking.homebanking.enums.TransactionType;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,12 +26,11 @@ public class Transaction {
 
     }
 
-    public Transaction(TransactionType type, double amount, String description, LocalDateTime date,Account account) {
+    public Transaction(TransactionType type, double amount, String description, LocalDateTime date) {
         this.type = type;
         this.amount = amount;
         this.description = description;
         this.date = date;
-        this.account = account;
     }
 
     public Long getId() {
@@ -66,5 +66,13 @@ public class Transaction {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }
