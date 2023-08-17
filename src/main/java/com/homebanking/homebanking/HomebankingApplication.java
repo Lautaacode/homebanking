@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.net.Authenticator;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,9 +35,11 @@ public class HomebankingApplication {
                                       CardRepository cardRepository) {
         return (args -> {
             Client client_1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("melba"));
-            Client client_2 = new Client("Lautaro", "Blanco", "Lautaronicoblanco@hotmail.com", passwordEncoder.encode("melba"));
+            Client client_2 = new Client("Lautaro", "Blanco", "lautaronicoblanco@hotmail.com", passwordEncoder.encode("melba"));
+            Client client_3 = new Client("Admin", "Admin", "admin@hotmail.com", passwordEncoder.encode("admin"));
             clientRepository.save(client_1);
             clientRepository.save(client_2);
+            clientRepository.save(client_3);
 
             Account account_1 = new Account("VIN001", LocalDateTime.now(), 5000);
             Account account_2 = new Account("VIN002", LocalDateTime.now().plusDays(1), 7500);

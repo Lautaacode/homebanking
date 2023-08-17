@@ -1,10 +1,11 @@
 package com.homebanking.homebanking.configurations;
 
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
@@ -14,24 +15,21 @@ import javax.servlet.http.HttpSession;
 
 @EnableWebSecurity
 @Configuration
-public class WebAuthorization extends WebSecurityConfigurerAdapter {
+public class WebAuthorization{
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/**").hasAuthority("CLIENT");
+                .antMatchers("/client/**").hasAuthority("CLIENT");
         http.formLogin()
-                .usernameParameter("name")
-                .passwordParameter("pwd")
-                .loginPage("/api/login");
+                .loginPage("/api/login")
+                .usernameParameter("email")
+                .passwordParameter("password");
         http.logout().logoutUrl("/api/logout");
 
-
-        // turn off checking for CSRF tokens
-
         http.csrf().disable();
-
 
         //disabling frameOptions so h2-console can be accessed
 
@@ -53,6 +51,7 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
 
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
 
+        return http.build();
     }
 
     private void clearAuthenticationAttributes(HttpServletRequest request) {
