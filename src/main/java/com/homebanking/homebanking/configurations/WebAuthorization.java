@@ -21,12 +21,15 @@ public class WebAuthorization{
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/web/index.html","/web/js/index.js","/web/css/style.css","/web/img/favicon.ico","/web/img/mindhub.jpg","/web/img/Mindhub-logo.png").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/client/**").hasAuthority("CLIENT");
+                .antMatchers("/**").hasAuthority("CLIENT");
+
         http.formLogin()
                 .loginPage("/api/login")
                 .usernameParameter("email")
                 .passwordParameter("password");
+
         http.logout().logoutUrl("/api/logout");
 
         http.csrf().disable();
