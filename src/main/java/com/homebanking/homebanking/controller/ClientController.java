@@ -49,4 +49,5 @@ public class ClientController {
         clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
 }

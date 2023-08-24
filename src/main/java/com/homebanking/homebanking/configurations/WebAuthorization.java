@@ -16,15 +16,15 @@ import javax.servlet.http.HttpSession;
 
 @EnableWebSecurity
 @Configuration
-public class WebAuthorization{
+public class WebAuthorization {
 
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/web/index.html","/web/js/index.js","/web/css/style.css","/web/img/favicon.ico","/web/img/mindhub.jpg","/web/img/Mindhub-logo.png").permitAll()
+                .antMatchers("/web/index.html", "/web/js/index.js", "/web/css/**", "/web/img/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/clients").permitAll()
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/admin/**","/rest/**,/api/**").hasAuthority("ADMIN")
                 .antMatchers("/**").hasAuthority("CLIENT");
 
         http.formLogin()
@@ -33,6 +33,11 @@ public class WebAuthorization{
                 .passwordParameter("password");
 
         http.logout().logoutUrl("/api/logout");
+
+        //if user is not authenticated,just send a redirect to index.html
+        //http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendRedirect("/web/index.html"));
+
+        // turn off checking for CSRF tokens
 
         http.csrf().disable();
 
