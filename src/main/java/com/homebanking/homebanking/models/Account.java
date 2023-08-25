@@ -19,7 +19,7 @@ public class Account {
     private LocalDateTime creationDate;
     private double balance;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="client_id")
+    @JoinColumn(name="clientId")
     private Client client;
 
     @OneToMany(mappedBy = "account",fetch = FetchType.EAGER)
