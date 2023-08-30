@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +49,14 @@ public class TransactionController {
     @PostMapping("/transactions")
     public ResponseEntity<Object> createCurrentCard(@RequestParam double amount, @RequestParam String
             description, @RequestParam String fromAccountNumber, @RequestParam String toAccountNumber, Authentication authentication) {
-        //validate accounts
+        //validate client
+        boolean hasClientAuthority = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(authority -> authority.equals("CLIENT"));
+        if (!hasClientAuthority) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+        //get accounts
         Account sourceAccount = accountRepository.findByNumber(fromAccountNumber);
         Account destinationAccount= accountRepository.findByNumber(toAccountNumber);
         //validate parameters

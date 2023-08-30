@@ -49,6 +49,13 @@ public class AccountController {
     }
     @PostMapping("/clients/current/accounts")
     public ResponseEntity<Object> createAccount(Authentication authentication) {
+        //validate CLIENT
+        boolean hasClientAuthority = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(authority -> authority.equals("CLIENT"));
+        if (!hasClientAuthority) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
         //get client information
         Client client = clientRepository.findByEmail(authentication.getName());
         //max of accounts
