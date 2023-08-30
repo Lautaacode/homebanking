@@ -3,6 +3,7 @@ package com.homebanking.homebanking.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,19 +16,28 @@ import javax.servlet.http.HttpSession;
 
 @EnableWebSecurity
 @Configuration
-public class WebAuthorization{
+public class WebAuthorization {
 
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/client/**").hasAuthority("CLIENT");
+                .antMatchers("/web/index.html", "/web/js/index.js", "/web/css/**", "/web/img/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/clients").permitAll()
+                .antMatchers("/admin/**","/rest/**,/api/**").hasAuthority("ADMIN")
+                .antMatchers("/**").hasAuthority("CLIENT");
+
         http.formLogin()
                 .loginPage("/api/login")
                 .usernameParameter("email")
                 .passwordParameter("password");
+
         http.logout().logoutUrl("/api/logout");
+
+        //if user is not authenticated,just send a redirect to index.html
+        //http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendRedirect("/web/index.html"));
+
+        // turn off checking for CSRF tokens
 
         http.csrf().disable();
 

@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.net.Authenticator;
@@ -25,7 +26,6 @@ public class HomebankingApplication {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Bean
     public CommandLineRunner initData(ClientRepository clientRepository,
                                       AccountRepository accountRepository,
@@ -36,7 +36,7 @@ public class HomebankingApplication {
         return (args -> {
             Client client_1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("melba"));
             Client client_2 = new Client("Lautaro", "Blanco", "lautaronicoblanco@hotmail.com", passwordEncoder.encode("melba"));
-            Client client_3 = new Client("Admin", "Admin", "admin@hotmail.com", passwordEncoder.encode("admin"));
+            Client client_3 = new Client("Admin", "Admin", "admin@admin.com", passwordEncoder.encode("admin"));
             clientRepository.save(client_1);
             clientRepository.save(client_2);
             clientRepository.save(client_3);
@@ -97,9 +97,9 @@ public class HomebankingApplication {
             clientLoanRepository.save(clientLoan_3);
             clientLoanRepository.save(clientLoan_4);
 
-            Card card_1 = new Card(client_1.getFirstName()+" "+client_1.getLastName(),CardType.DEBIT, CardColor.GOLD,"2316-5416-3854-2184",970,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
-            Card card_2 = new Card(client_1.getFirstName()+" "+client_1.getLastName(),CardType.CREDIT, CardColor.TITANIUM,"5423-8465-3214-5483",320,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
-            Card card_3 = new Card(client_2.getFirstName()+" "+client_2.getLastName(),CardType.DEBIT, CardColor.SILVER,"5456-1321-4541-8973",110,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
+            Card card_1 = new Card(CardType.DEBIT, CardColor.GOLD,"2316-5416-3854-2184",970,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
+            Card card_2 = new Card(CardType.CREDIT, CardColor.TITANIUM,"5423-8465-3214-5483",320,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
+            Card card_3 = new Card(CardType.DEBIT, CardColor.SILVER,"5456-1321-4541-8973",110,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
 
             client_1.addCard(card_1);
             client_1.addCard(card_2);

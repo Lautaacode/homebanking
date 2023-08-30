@@ -32,8 +32,7 @@ public class Card {
     public Card() {
     }
 
-    public Card(String cardHolder, CardType type, CardColor color, String number, Integer cvv, LocalDateTime fromDate, LocalDateTime thruDate) {
-        this.cardHolder = cardHolder;
+    public Card(CardType type, CardColor color, String number, Integer cvv, LocalDateTime fromDate, LocalDateTime thruDate) {
         this.type = type;
         this.color = color;
         this.number = number;
