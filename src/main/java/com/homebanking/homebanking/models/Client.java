@@ -105,4 +105,7 @@ public class Client {
     public List<Loan> getLoans(){
         return clientLoans.stream().map(ClientLoan::getLoan).collect(toList());
     }
+    public String cardHolder(){
+        return firstName + " " + lastName;
+    }
 }

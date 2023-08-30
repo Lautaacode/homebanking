@@ -43,22 +43,31 @@ public class HomebankingApplication {
 
             Account account_1 = new Account("VIN001", LocalDateTime.now(), 5000);
             Account account_2 = new Account("VIN002", LocalDateTime.now().plusDays(1), 7500);
+            Account account_3 = new Account("VIN003", LocalDateTime.now().plusDays(1), 7500);
             accountRepository.save(account_1);
             accountRepository.save(account_2);
+            accountRepository.save(account_3);
 
             client_1.addAccount(account_1);
             client_1.addAccount(account_2);
+            client_2.addAccount(account_3);
             clientRepository.save(client_1);
+            clientRepository.save(client_2);
+            accountRepository.save(account_3);
 
             Transaction transaction_1 = new Transaction(TransactionType.DEBIT, 5000, "Car wash", LocalDateTime.now());
             Transaction transaction_2 = new Transaction(TransactionType.CREDIT, 5000, "Money", LocalDateTime.now());
+            Transaction transaction_3 = new Transaction(TransactionType.CREDIT, 5000, "Money", LocalDateTime.now());
 
             account_1.addTransactions(transaction_1);
             account_2.addTransactions(transaction_2);
+            account_3.addTransactions(transaction_3);
             accountRepository.save(account_1);
             accountRepository.save(account_2);
+            accountRepository.save(account_3);
             transactionRepository.save(transaction_1);
             transactionRepository.save(transaction_2);
+            transactionRepository.save(transaction_3);
 
             Loan loan_1 = new Loan("Mortgage", 500000, List.of(12,24,36,48,60));
             Loan loan_2 = new Loan("Personal", 500000, List.of(6,12,24));
@@ -95,9 +104,9 @@ public class HomebankingApplication {
             clientLoanRepository.save(clientLoan_3);
             clientLoanRepository.save(clientLoan_4);
 
-            Card card_1 = new Card(CardType.DEBIT, CardColor.GOLD,"2316-5416-3854-2184",970,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
-            Card card_2 = new Card(CardType.CREDIT, CardColor.TITANIUM,"5423-8465-3214-5483",320,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
-            Card card_3 = new Card(CardType.DEBIT, CardColor.SILVER,"5456-1321-4541-8973",110,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
+            Card card_1 = new Card(client_1.getFirstName() + " " + client_1.getLastName(),CardType.DEBIT, CardColor.GOLD,"2316-5416-3854-2184",970,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
+            Card card_2 = new Card(client_1.getFirstName() + " " + client_1.getLastName(),CardType.CREDIT, CardColor.TITANIUM,"5423-8465-3214-5483",320,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
+            Card card_3 = new Card(client_1.getFirstName() + " " + client_1.getLastName(),CardType.DEBIT, CardColor.SILVER,"5456-1321-4541-8973",110,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
 
             client_1.addCard(card_1);
             client_1.addCard(card_2);
