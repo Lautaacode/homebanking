@@ -48,30 +48,18 @@ public class AccountController {
         return new ResponseEntity<>("You're  not the owner", HttpStatus.FORBIDDEN);
     }
     @PostMapping("/clients/current/accounts")
-    public ResponseEntity<Object> createCurrentAccount(Authentication authentication) {
-        //validate CLIENT
-        boolean hasClientAuthority = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .anyMatch(authority -> authority.equals("CLIENT"));
-        if (!hasClientAuthority) {
-            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
-        }
-        //get identification
+    public ResponseEntity<Object> createAccount(Authentication authentication) {
+        //get client information
         Client client = clientRepository.findByEmail(authentication.getName());
         //max of accounts
         if (client.getAccounts().size() >= 3) {
             return new ResponseEntity<>("User has 3 accounts", HttpStatus.FORBIDDEN);
         }
-        return createAccount(authentication.getName());
-    }
-
-
-    private ResponseEntity<Object> createAccount(String clientEmail) {
-        //create account
         String accountNumber = createNumberAccount();
-        Account account = new Account(accountNumber, LocalDateTime.now(), 0.0);
-        account.setClient(clientRepository.findByEmail(clientEmail));
-        accountRepository.save(account);
+        Account newAccount = new Account(accountNumber, LocalDateTime.now(), 0.0);
+        client.addAccount(newAccount);
+        accountRepository.save(newAccount);
+        clientRepository.save(client);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

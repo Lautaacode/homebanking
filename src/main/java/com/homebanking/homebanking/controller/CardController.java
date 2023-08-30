@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DecimalFormat;
@@ -40,29 +41,36 @@ public class CardController {
     }
 
     @PostMapping("/clients/current/cards")
-    public ResponseEntity<Object> createCurrentCard(
+    public ResponseEntity<Object> createCard(
             @RequestParam CardType cardType, @RequestParam CardColor cardColor, Authentication authentication) {
+        //validate CLIENT
+        boolean hasClientAuthority = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(authority -> authority.equals("CLIENT"));
+        if (!hasClientAuthority) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
         //get client information
         Client client = clientRepository.findByEmail(authentication.getName());
-
         //validation card
         if (cardRepository.existsByTypeAndColorAndClient(cardType, cardColor, client)) {
             return new ResponseEntity<>("card alredy exist", HttpStatus.FORBIDDEN);
         }
 
         //create card
-        String cardHolder = client.getFirstName() + " " + client.getLastName();
-        Card newCard = new Card(cardHolder, cardType, cardColor,
+        Card newCard = new Card(client.cardHolder(), cardType, cardColor,
                 generateNumber(), generateCvv(), LocalDateTime.now(), LocalDateTime.now().plusYears(5));
-        newCard.setClient(client);
+        client.addCard(newCard);
         cardRepository.save(newCard);
+        clientRepository.save(client);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
+    //generate ccv number
     private int generateCvv() {
         return (int) (Math.random() * 999);
     }
 
+    //generate number card
     private String generateNumber() {
         DecimalFormat format = new DecimalFormat("0000");
         String number = "";

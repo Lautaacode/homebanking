@@ -92,6 +92,7 @@ public class TransactionController {
         //change balance
         sourceAccount.minusBalance(amount);
         destinationAccount.plusBalance(amount);
+        //save transactions
         accountRepository.save(sourceAccount);
         accountRepository.save(destinationAccount);
         transactionRepository.save(debitTransaction);

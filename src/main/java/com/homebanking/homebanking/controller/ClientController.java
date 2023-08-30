@@ -44,7 +44,7 @@ public class ClientController {
         return new ClientDTO(clientRepository.findByEmail(authentication.getName()));
     }
     @PostMapping("/clients")
-    public ResponseEntity<Object> register(
+    public ResponseEntity<Object> registerClient(
             @RequestParam String firstName, @RequestParam String lastName,
             @RequestParam String email, @RequestParam String password) {
         if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
@@ -55,10 +55,14 @@ public class ClientController {
         }
 
         String accountNumber = accountController.createNumberAccount();
+        //create new account
         Account account = new Account(accountNumber, LocalDateTime.now(),0.0);
+        //save account
         accountRepository.save(account);
+        //create new client
         Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password));
         client.addAccount(account);
+        //save client
         clientRepository.save(client);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
