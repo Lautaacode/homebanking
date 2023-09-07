@@ -1,4 +1,4 @@
-package com.homebanking.homebanking.controller;
+package com.homebanking.homebanking.controllers;
 
 import com.homebanking.homebanking.dtos.ClientDTO;
 import com.homebanking.homebanking.models.Account;
@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 

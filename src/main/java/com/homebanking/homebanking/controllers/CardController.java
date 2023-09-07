@@ -1,7 +1,6 @@
-package com.homebanking.homebanking.controller;
+package com.homebanking.homebanking.controllers;
 
 import com.homebanking.homebanking.dtos.CardDTO;
-import com.homebanking.homebanking.dtos.ClientDTO;
 import com.homebanking.homebanking.enums.CardColor;
 import com.homebanking.homebanking.enums.CardType;
 import com.homebanking.homebanking.models.Card;

@@ -1,15 +1,11 @@
-package com.homebanking.homebanking.controller;
+package com.homebanking.homebanking.controllers;
 
 
 import com.homebanking.homebanking.dtos.TransactionDTO;
-import com.homebanking.homebanking.enums.TransactionType;
 import com.homebanking.homebanking.models.Account;
-import com.homebanking.homebanking.models.Client;
 import com.homebanking.homebanking.models.Transaction;
-import com.homebanking.homebanking.repositories.AccountRepository;
 
 import com.homebanking.homebanking.repositories.ClientRepository;
-import com.homebanking.homebanking.repositories.TransactionRepository;
 import com.homebanking.homebanking.services.AccountService;
 import com.homebanking.homebanking.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +16,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/api")
@@ -66,13 +57,13 @@ public class TransactionController {
         if (amount <= 0) {
             return new ResponseEntity<>("Amount invalid", HttpStatus.FORBIDDEN);
         }
-        if ( description.isEmpty()) {
+        if ( description.isBlank()) {
             return new ResponseEntity<>("Description is empty", HttpStatus.FORBIDDEN);
         }
-        if (fromAccountNumber.isEmpty()) {
+        if (fromAccountNumber.isBlank()) {
             return new ResponseEntity<>("Number of source account is empty", HttpStatus.FORBIDDEN);
         }
-        if (toAccountNumber.isEmpty()) {
+        if (toAccountNumber.isBlank()) {
             return new ResponseEntity<>("Number of destination account is empty", HttpStatus.FORBIDDEN);
         }
         //account doesn't be same account

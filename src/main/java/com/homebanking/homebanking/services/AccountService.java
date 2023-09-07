@@ -13,7 +13,6 @@ public interface AccountService {
     Account findByNumber(String number);
     AccountDTO getAccount(long id);
     Account createAccount();
-
     boolean existsByNumber(String accountNumber);
     String createNumberAccount();
 

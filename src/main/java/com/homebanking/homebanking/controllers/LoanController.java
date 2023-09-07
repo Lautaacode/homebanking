@@ -1,10 +1,8 @@
-package com.homebanking.homebanking.controller;
+package com.homebanking.homebanking.controllers;
 
 import com.homebanking.homebanking.dtos.LoanApplicationDTO;
 import com.homebanking.homebanking.dtos.LoanDTO;
-import com.homebanking.homebanking.enums.TransactionType;
 import com.homebanking.homebanking.models.*;
-import com.homebanking.homebanking.repositories.*;
 import com.homebanking.homebanking.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,11 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-
-
-import static java.util.stream.Collectors.toList;
 
 
 @RestController

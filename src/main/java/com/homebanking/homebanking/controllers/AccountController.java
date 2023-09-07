@@ -1,10 +1,8 @@
-package com.homebanking.homebanking.controller;
+package com.homebanking.homebanking.controllers;
 
 import com.homebanking.homebanking.dtos.AccountDTO;
 import com.homebanking.homebanking.models.Account;
 import com.homebanking.homebanking.models.Client;
-import com.homebanking.homebanking.repositories.AccountRepository;
-import com.homebanking.homebanking.repositories.ClientRepository;
 import com.homebanking.homebanking.services.AccountService;
 import com.homebanking.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
