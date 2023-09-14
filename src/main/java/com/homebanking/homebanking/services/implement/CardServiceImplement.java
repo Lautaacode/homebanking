@@ -7,6 +7,7 @@ import com.homebanking.homebanking.models.Card;
 import com.homebanking.homebanking.models.Client;
 import com.homebanking.homebanking.repositories.CardRepository;
 import com.homebanking.homebanking.services.CardService;
+import com.homebanking.homebanking.utils.CardUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,20 +51,12 @@ public class CardServiceImplement implements CardService {
     //generate ccv number
     @Override
     public int generateCvv() {
-        return (int) (Math.random() * 999);
+       return CardUtils.generateCvv();
     }
 
     //generate number card
     @Override
     public String generateNumber() {
-        DecimalFormat format = new DecimalFormat("0000");
-        String number = "";
-        for (int i = 0; i < 4; i++) {
-            number += format.format((int) (Math.random() * 9999));
-            if (i != 3) {
-                number += "-";
-            }
-        }
-        return number;
+       return CardUtils.createCardNumber();
     }
 }
