@@ -1,5 +1,4 @@
 Vue.createApp({
-
     data() {
         return {
             errorToats: null,
@@ -9,8 +8,8 @@ Vue.createApp({
         }
     },
     methods: {
-        formatDate: function (creationDate) {
-            return new Date(creationDate).toLocaleDateString('en-gb');
+        formatDate: function (date) {
+            return new Date(date).toLocaleDateString('en-gb');
         },
         signOut: function () {
             axios.post('/api/logout')

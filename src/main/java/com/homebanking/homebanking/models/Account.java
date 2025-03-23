@@ -62,7 +62,7 @@ public class Account {
         this.balance = balance;
     }
 
-    @JsonIgnore
+
     public Client getClient() {
         return client;
     }
@@ -78,5 +78,12 @@ public class Account {
     public void addTransactions(Transaction transaction) {
         transaction.setAccount(this);
         transactions.add(transaction);
+    }
+    public void plusBalance(double amount){
+        balance+=amount;
+    }
+
+    public void minusBalance(double amount){
+        balance-=amount;
     }
 }

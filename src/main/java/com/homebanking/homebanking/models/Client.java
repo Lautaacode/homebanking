@@ -1,5 +1,6 @@
 package com.homebanking.homebanking.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.HashSet;
@@ -102,7 +103,11 @@ public class Client {
     }
 
     //Methods extra;
+    @JsonIgnore
     public List<Loan> getLoans(){
         return clientLoans.stream().map(ClientLoan::getLoan).collect(toList());
+    }
+    public String cardHolder(){
+        return firstName + " " + lastName;
     }
 }
